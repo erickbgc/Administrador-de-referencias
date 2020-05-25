@@ -1,0 +1,23 @@
+body{
+    background-color: #353b48;
+    font-family: 'Oswald', sans-serif;
+    overflow: auto;
+}
+.left-auto{
+    margin-left: auto;
+}
+
+.bg-pic{
+    color: white;
+    padding-top: 20em;
+}
+
+.fa-folder-open {
+    font-size: 25px;
+}
+
+@media screen and (max-width: 1368px){
+    .bg-pic{
+        padding-top: 13em;
+    }
+}

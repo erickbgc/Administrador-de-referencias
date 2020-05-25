@@ -1,0 +1,21 @@
+<div class="container p-4">
+    <div class="row">
+        <div class="col-md-6 mx-auto">
+            <div class="list-group">
+                
+                {{#each users}}
+                    {{#when username 'noteq' 'admin'}}
+                        <a href="/users/{{id}}/projects" class="list-group-item list-group-item-action flex-column align-items-start">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">Nombre: {{fullname}}</h5>                                
+                            </div>
+                            <p class="mb-1">Usuario: {{username}}</p>
+                            <small>Ver proyectos</small>
+                        </a>
+                    {{/when}}
+                {{/each}}
+
+            </div>
+        </div>
+    </div>
+</div>
