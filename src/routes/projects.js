@@ -5,12 +5,13 @@ const localStorage = require('localStorage');
 
 const pool = require('../database');
 const { isLoggedIn } = require('../lib/auth');
+const { isNotAdmin } = require('../lib/auth');
 
-router.get('/create', isLoggedIn, (req, res) => {
+router.get('/create', isLoggedIn, isNotAdmin, (req, res) => {
     res.render('projects/create');
 });
 
-router.post('/create', isLoggedIn, async (req, res) => {
+router.post('/create', isLoggedIn, isNotAdmin, async (req, res) => {
     const { title, supervisor, partners, description, estatus } = req.body;
     const newProject = {
         title,
@@ -36,7 +37,7 @@ router.post('/create', isLoggedIn, async (req, res) => {
     }
 });
 
-router.get('/', isLoggedIn, async (req, res) => {
+router.get('/', isLoggedIn, isNotAdmin, async (req, res) => {
     if (req.user.username == 'admin') {
         const projects = await pool.query('SELECT * FROM projects');
         res.render('projects/list', { projects });
@@ -46,13 +47,13 @@ router.get('/', isLoggedIn, async (req, res) => {
     }
 });
 
-router.get('/edit/:id', isLoggedIn, async (req, res) => {
+router.get('/edit/:id', isLoggedIn, isNotAdmin, async (req, res) => {
     const { id } = req.params;
     const projects = await pool.query('SELECT * FROM projects WHERE id = ?', [id]);
     res.render('projects/edit', { project: projects[0] });
 });
 
-router.post('/edit/:id', isLoggedIn, async (req, res) => {
+router.post('/edit/:id', isLoggedIn, isNotAdmin, async (req, res) => {
     const { id } = req.params;
     const { title, supervisor, partners, description, estatus } = req.body;
     const newProject = {
@@ -69,7 +70,7 @@ router.post('/edit/:id', isLoggedIn, async (req, res) => {
 
 // ############# acceso a los enlaces ############## 
 
-router.get('/:title/:id/links', isLoggedIn, async (req, res) => {
+router.get('/:title/:id/links', isLoggedIn, isNotAdmin, async (req, res) => {
     const { id } = req.params;
     const { title } = req.params;
     localStorage.setItem('project_title', title);
@@ -78,7 +79,7 @@ router.get('/:title/:id/links', isLoggedIn, async (req, res) => {
     res.render('links/list', { links });
 });
 
-router.get('/links/add', isLoggedIn, (req, res) => {
+router.get('/links/add', isLoggedIn, isNotAdmin, (req, res) => {
     const project_id = localStorage.getItem('project_id');
     if ( project_id == null || project_id == undefined) {
         res.redirect('/projects');
@@ -87,7 +88,7 @@ router.get('/links/add', isLoggedIn, (req, res) => {
     }    
 });
 
-router.post('/links/add', isLoggedIn, async (req, res) => {
+router.post('/links/add', isLoggedIn, isNotAdmin, async (req, res) => {
     const { title, url, description } = req.body;
     const project_title = localStorage.getItem('project_title');
     const project_id = localStorage.getItem('project_id');

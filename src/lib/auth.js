@@ -19,6 +19,13 @@ module.exports = {
             return next();
         }
         return res.redirect('/profile');
+    },
+
+    isNotAdmin(req, res, next) {
+        if (req.user.username != 'admin') {
+            return next();
+        }
+        return res.redirect('/profile');
     }
 
 }
