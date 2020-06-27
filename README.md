@@ -1,3 +1,1 @@
-# Administrador de referencias
-
-Proyecto NodeJs Mysql CRUD
+# Nodejs CRUD Reference manager
